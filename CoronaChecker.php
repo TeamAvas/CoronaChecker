@@ -17,8 +17,16 @@ use pocketmine\utils\SingletonTrait;
 final class CoronaChecker extends PluginBase{
     use SingletonTrait;
 
+    private const ACCESSOR_KEY = '';
+
     protected function onEnable(): void{
-        if (($result = Internet::getURL("http://api.corona-19.kr/korea/?serviceKey=e487d21cec16833f4f6d218dfb7d11b63"))) {
+        if (trim(self::ACCESSOR_KEY) === '') {
+            $this->getLogger()->error("인증자 토큰이 옳바르지 않습니다.");
+            $this->getServer()->getPluginManager()->disablePlugin($this);
+            return;
+        }
+
+        if (($result = Internet::getURL("http://api.corona-19.kr/korea/?serviceKey=" . self::ACCESSOR_KEY))) {
             $this->getLogger()->notice("==========================================");
             $json = json_decode($result->getBody(), true);
             foreach ($json as $key => $value) {
