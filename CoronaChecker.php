@@ -21,7 +21,6 @@ final class CoronaChecker extends PluginBase{
 
     protected function onEnable(): void{
         if (trim(self::ACCESSOR_KEY) === '') {
-            $this->getLogger()->error("인증자 토큰이 옳바르지 않습니다.");
             $this->getServer()->getPluginManager()->disablePlugin($this);
             return;
         }
